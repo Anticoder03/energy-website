@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* nomos — surface scale */
+  --color-void: #070b09;
+  --color-void-2: #0a0f0c;
+  --color-panel: #0e1411;
+  --color-panel-2: #141b17;
+  --color-panel-3: #1a241e;
+
+  /* ink — text scale */
+  --color-ink: #eaf0e6;
+  --color-ink-muted: #93a195;
+  --color-ink-faint: #5f6f63;
+
+  /* off-ink */
+  --color-smoke: #0e1a12;
+
+  /* volt — the single accent */
+  --color-volt: #b8f33c;
+  --color-volt-2: #cdf95f;
+  --color-volt-deep: #8cc41c;
+  --color-volt-dim: #3c5116;
+
+  /* structural */
+  --color-hair: #1c251f;
+  --color-hair-bright: #2a372e;
+
+  --radius-card: 1.25rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snap: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --shadow-float: 0 30px 80px -20px rgba(0, 0, 0, 0.7);
+  --shadow-volt: 0 0 0 1px rgba(184, 243, 60, 0.14), 0 18px 60px -18px rgba(184, 243, 60, 0.25);
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-volt);
+    color: var(--color-void);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.04;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-volt);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 40rem) { .container-x { padding-inline: 2rem; } }
+  @media (min-width: 64rem) { .container-x { padding-inline: 2.5rem; } }
+
+  .hairline-t {
+    border-top: 1px solid var(--color-hair);
+  }
+
+  .hairline {
+    border: 1px solid var(--color-hair);
+  }
+
+  /* double-bezel shell — machined hardware look */
+  .bezel {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    padding: 0.5rem;
+    border-radius: calc(var(--radius-card) + 0.5rem);
+  }
+  .bezel > .bezel-core {
+    background: var(--color-panel);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-card);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .text-gradient-volt {
+    background: linear-gradient(100deg, var(--color-volt) 0%, var(--color-volt-2) 60%, var(--color-volt) 120%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@layer utilities {
+  .font-data {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .animate-drift {
+    animation: drift 7s ease-in-out infinite;
+  }
+  .animate-pulse-dot {
+    animation: pulse-dot 1.8s ease-in-out infinite;
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
