@@ -12,6 +12,8 @@ import { About } from '@/pages/About'
 import { Contact } from '@/pages/Contact'
 import { Page404 } from '@/pages/Page404'
 
+import { ThemeProvider } from '@/context/ThemeContext'
+
 function ScrollManager() {
   const { pathname, hash } = useLocation()
 
@@ -47,20 +49,22 @@ function Layout() {
 export default function App() {
   return (
     <BrowserRouter>
-      <CartProvider>
-        <ScrollManager />
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/shop" element={<Shop />} />
-            <Route path="/product/:slug" element={<ProductDetail />} />
-            <Route path="/storage" element={<Storage />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<Page404 />} />
-          </Route>
-        </Routes>
-      </CartProvider>
+      <ThemeProvider>
+        <CartProvider>
+          <ScrollManager />
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/product/:slug" element={<ProductDetail />} />
+              <Route path="/storage" element={<Storage />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<Page404 />} />
+            </Route>
+          </Routes>
+        </CartProvider>
+      </ThemeProvider>
     </BrowserRouter>
   )
 }
