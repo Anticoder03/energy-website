@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { MagnifyingGlass, ShoppingCartSimple } from '@phosphor-icons/react'
+import { MagnifyingGlass, ShoppingCartSimple, Sun, Moon } from '@phosphor-icons/react'
+import { useTheme } from '@/context/ThemeContext'
 import { Logo } from '@/components/Logo'
 import { useCart } from '@/context/CartContext'
 import { useGSAP, gsap } from '@/lib/gsap'
@@ -38,6 +39,7 @@ function Burger({ open }: { open: boolean }) {
 export function Nav() {
   const [solid, setSolid] = useState(false)
   const [open, setOpen] = useState(false)
+  const { resolvedTheme, toggle } = useTheme()
   const { count, openCart } = useCart()
   const location = useLocation()
   const menuRef = useRef<HTMLDivElement>(null)
@@ -103,7 +105,7 @@ export function Nav() {
       gsap.fromTo(menuRef.current, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power2.out' })
       closeBtnRef.current?.focus()
       return () => {
-        gsap.killTweensOf(menuRef.current)
+        if (menuRef.current) gsap.killTweensOf(menuRef.current)
       }
     },
     { dependencies: [open], scope: menuRef },
@@ -151,6 +153,14 @@ export function Nav() {
             >
               <MagnifyingGlass size={18} weight="bold" />
             </Link>
+            <button
+              type="button"
+              aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} theme`}
+              onClick={toggle}
+              className="grid h-10 w-10 place-items-center rounded-full text-ink-muted transition-colors hover:bg-white/6 hover:text-ink"
+            >
+              {resolvedTheme === 'dark' ? <Sun size={18} weight="bold" /> : <Moon size={18} weight="bold" />}
+            </button>
             <button
               type="button"
               onClick={openCart}

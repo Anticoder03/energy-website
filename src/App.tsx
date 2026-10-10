@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Outlet, Route, Routes, useLocation } from 'react-router-dom'
+import { ThemeProvider } from '@/context/ThemeContext'
 import { CartProvider } from '@/context/CartContext'
 import { Nav } from '@/components/Nav'
 import { CartDrawer } from '@/components/CartDrawer'
@@ -12,7 +13,6 @@ import { About } from '@/pages/About'
 import { Contact } from '@/pages/Contact'
 import { Page404 } from '@/pages/Page404'
 
-import { ThemeProvider } from '@/context/ThemeContext'
 
 function ScrollManager() {
   const { pathname, hash } = useLocation()
